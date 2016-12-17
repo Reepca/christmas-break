@@ -1,0 +1,27 @@
+* Subsystems
+** Rendering
+   Using openGL for this. We basically just need to build a "sprite
+   interpreter", so to speak, where a "sprite" is just a 2D
+   graphical... thing. So we should get a specification for sprites going so
+   that we can use them.
+*** Specification
+    So what are sprites made up of, and how should they be rendered based on
+    that?
+** Physics
+*** Collision detection
+    The simplest thing that could possibly sort of work: Everything is a box,
+    teleport everything to where its velocity and the elapsed time indicate it
+    should be, and figure out what stuff is stuck in each other.
+*** Actual physics
+**** Describing motion
+     Forces are instantaneous and applied each physics update, and velocities
+     are constant in between updates. Position is incremented by whatever the
+     combination of change in time and current velocity indicate it should be. 
+**** Collision response
+     The simplest form involves stuff hitting each other and sticking (that is,
+     not bouncing) and combining the momentums to figure out how fast and in
+     what direction they should be going now. Bouncing is hard because figuring
+     out the angle of incidence is hard when you don't actually know where or
+     when they collided (although it's easier with boxes than with other
+     shapes).
+** Game logic
