@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <SDL.h>
-#include <SDL_video.h>
+
 
 #define true -1
 #define false 0
