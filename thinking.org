@@ -5,6 +5,8 @@
    interpreter", so to speak, where a "sprite" is just a 2D
    graphical... thing. So we should get a specification for sprites going so
    that we can use them.
+
+   Also, here's the [[https://wiki.libsdl.org/CategoryVideo][SDL video documentation]].
 *** Specification
     So what are sprites made up of, and how should they be rendered based on
     that?

@@ -1,3 +1,3 @@
 build :
-	cc $(shell sdl-config --cflags) -o main main.c $(shell sdl-config \
+	cc $(shell sdl2-config --cflags) -o main main.c $(shell sdl2-config \
 	--libs)
