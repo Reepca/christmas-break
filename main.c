@@ -43,6 +43,10 @@ int handleEvents()
      {
 	  printf("Got an event!\n");
 	  int stop_loop = handleEvent(currentEvent);
+	  // On windows for some reason this doesn't seem to have the intended
+	  // effect of making it immediately appear in the shell. Instead it all
+	  // gets written at once every 300 lines or so... weird.
+	  fflush(stdin);
 	  if(stop_loop)
 	  {
 	       return stop_loop;
@@ -51,7 +55,7 @@ int handleEvents()
      return false;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
   printf("woot\n");
   // SDL apparently has to do some setup at runtime. Mostly just being like "hey

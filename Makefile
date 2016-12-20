@@ -1,3 +1,4 @@
+cflags=$(shell sdl2-config --cflags)
+libflags=$(shell sdl2-config --libs)
 build :
-	cc $(shell sdl2-config --cflags) -o main main.c $(shell sdl2-config \
-	--libs)
+	cc $(cflags) -o main main.c $(libflags)

@@ -35,3 +35,17 @@
   thinking. 
 * Documentation
   [[https://wiki.libsdl.org][SDL wiki]]
+** Building
+   If you're on Linux or really any Unix, this should be pretty
+   straightforward. Just make sure you have libsdl2-dev or whatever your package
+   manager calls it, make, and gcc of course installed. If you're using mingw32,
+   you want the msys version of make - the one that comes already installed
+   won't work. If you're on windows and want to use anything other than mingw, I
+   don't know what you should do, but you're probably smarter than me so you can
+   probably figure it out.
+
+* Schedule/TODOs
+** NOTE: If you want something immediately visible, put a flush() after it!
+   On Windows especially, the buffering of stdout is really obvious - you'd
+   think we weren't even getting any events until suddenly the buffer is full
+   and gets autoflushed and suddenly we get 200 lines of output.
