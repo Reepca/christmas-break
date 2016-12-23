@@ -10,6 +10,21 @@
 *** Specification
     So what are sprites made up of, and how should they be rendered based on
     that?
+
+    In general, 2D images are either vector graphics or bitmaps (that is, a
+    2-dimensional array of color values). So a sprite should be able to have
+    both of those. First we copy the bitmap to the framebuffer, then we draw the
+    vector parts on top of it. The bitmap parts should be pretty simple - RGBA,
+    each component 8 bits. The vector parts are more tricky - what should they
+    consist of? Lines, curves, and regions I think. More generally, vector
+    graphics can be specified as paths and regions enclosed by paths. 
+**** Paths
+     In the general case, a path can always be created as a sequence of
+     lines. It might take a lot of them to make a good approximation, but it can
+     be done. But it might also be useful to have other ways of specifying
+     them. For example, as a parametric function with a certain start and end
+     time. The question is just how to determine efficiently in the general case
+     what is enclosed by a path.
 ** Physics
 *** Collision detection
     The simplest thing that could possibly sort of work: Everything is a box,
@@ -48,4 +63,6 @@
 ** NOTE: If you want something immediately visible, put a flush() after it!
    On Windows especially, the buffering of stdout is really obvious - you'd
    think we weren't even getting any events until suddenly the buffer is full
-   and gets autoflushed and suddenly we get 200 lines of output.
+   and gets autoflushed and suddenly we get 200 lines of output. Note that this
+   doesn't seem to have the intended effect in Windows - it still only prints
+   big chunks at a time.
