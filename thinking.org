@@ -9,7 +9,64 @@
    Also, here's the [[https://wiki.libsdl.org/CategoryVideo][SDL video documentation]].
 *** Specification
     So what are sprites made up of, and how should they be rendered based on
-    that?
+    that? Let's say that they have a bitmap property which is basically just a
+    2-dimensional array of colors, right? And they also should have vector
+    information. In general, all vector graphics can be reduced to a
+    sufficiently high amount of lines. Now, we'd like to be able to not have to
+    spam lines to get complex geometry. So we might want more types of vector
+    graphics than just lines. But for now, it is all we will have. 
+**** Bitmap graphics part
+     A 2-dimensional array of colors and the associated sizes.
+**** Vector graphics part
+     An array of lines, where a line consists of two points. Lines should also
+     have colors.
+*** Drawing the sprites
+    - Copy bitmap stuff to the framebuffer in the right place (doing
+    scaling/rotating if necessary) (bitmap half)
+    - Draw lines on top of it (vector stuff)
+**** OpenGL
+     We could use different shaders for the different kinds of drawing we do. OR
+     we can make a decision in the shader. Or we could just have the shader
+     always do both of them and assume that drawing 0 lines isn't much work, and
+     neither is copying 0 pixels. But it turns out that the best option is
+     probably to do the first one (using different shaders for the different
+     kinds of drawing), but batch together drawings of the same kind. That is,
+     first draw all the bitmap graphics, then switch to the other shader, then
+     draw all the vector graphics.
+***** To draw a sprite
+      Let's batch all of the bitmap graphics together and batch all the vector
+      graphics together. 
+***** The shaders
+      - Vertex :: In the case of vector graphics, we need only pass the
+                  information through to the fragment shader, where it will just
+                  take the color and make that be the output color. Because the
+                  entire line is the same color.
+
+		  In the case of bitmap graphics, the same thing, only it's also
+                  passing along texture coordinates. 
+
+	+ Vector :: outPos = inPos
+		    outColor = inColor
+		    
+	+ Bitmap :: outPos = inPos
+		    outU = inU
+		    outV = inV
+ 
+		  
+      - Fragment ::  A fragment shader answers the "what" question of a triangle
+                     (namely, what color for each pixel). In the case of vector
+                     graphics, this is just the interpolated color of the
+                     vertices (which will usually be the same color for both of
+                     them). In the case of bitmap graphics, this is the
+                     pixel of the texture for that sprite closest to the UV
+                     coordinates that have been interpolated.
+		     
+		     vector: outColor = inColor
+		     bitmap: outColor = texture[inU][inV]
+      
+      To draw a line here, just set the color of the pixel this instance of the
+      shader is operating on to the color given. I think OpenGL should handle
+      the selecting of the right pixels by itself.
 ** Physics
 *** Collision detection
     The simplest thing that could possibly sort of work: Everything is a box,
