@@ -1,12 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <SDL.h>
+#include <GL/gl.h>
+#include <SOIL.h>
+#include <SDL_opengl.h>
+#include "shaders.h"
 
 
 #define true -1
 #define false 0
 
-// returns whether it should stop
+
+
+// returns whether the program should stop
 int handleEvent(SDL_Event theEvent)
 {
      // Possible event types available at:
@@ -66,11 +72,21 @@ int main(int argc, char* argv[])
 					    0, 0, // initial position
 					    800, 800, // size
 					    SDL_WINDOW_OPENGL); // self-explanatory
+
+  /* load an image file directly as a new OpenGL texture */
+  GLuint wat_titan = SOIL_load_OGL_texture("assets/test_img.bmp",
+					SOIL_LOAD_AUTO,
+					SOIL_CREATE_NEW_ID,
+					SOIL_FLAG_MIPMAPS |
+					SOIL_FLAG_INVERT_Y |
+					SOIL_FLAG_NTSC_SAFE_RGB |
+					SOIL_FLAG_COMPRESS_TO_DXT);
+
   // Everything loop
   int shouldExit = false;
   while(!shouldExit)
   {
-       shouldExit = handleEvents();
+       
        /* Process all input events first. It looks like this:
         - Yo SDL, gimme an event
         - "Okay dude, here's an event"
@@ -81,7 +97,7 @@ int main(int argc, char* argv[])
 	- Awesome, that means we should start walking forward! 
        This suggests that maybe, just maybe... we should format it as a
        decision tree. */
-       
+       shouldExit = handleEvents();
 
        // Do recurring game logic (physics) here
 
